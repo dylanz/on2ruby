@@ -145,6 +145,14 @@ VALUE FlixEngine_get_flix_errors(VALUE self)
   return INT2FIX(flixerr);
 }
 
+VALUE FlixEngine_enable_flv(VALUE self)
+{
+  CHECKSC( Flix2_AddCodec(&codec, flix, FE2_CODEC_VP6) )
+  CHECKSC( Flix2_CodecSetParam(codec, FE2_VP6_BITRATE, 450.0) )
+}
+
+
+// filters
 VALUE FlixEngine_set_scale_filter(VALUE self, VALUE filters)
 {
   FLIX2PLGNHANDLE filter;
@@ -186,6 +194,11 @@ VALUE FlixEngine_set_png_filter(VALUE self, VALUE filters)
   if(TYPE(prefix) == T_STRING) {
     CHECKSC( Flix2_FilterSetParamAsStr(filter,FE2_PNGEX_FILENAME_PREFIX, StringValueCStr(prefix)));
   }
+  
+  VALUE output_directory = rb_hash_aref(filters, ID2SYM(rb_intern("output_directory")));
+  if(TYPE(output_directory) == T_STRING) {
+    CHECKSC( Flix2_FilterSetParamAsStr(filter,FE2_PNGEX_OUTPUT_DIRECTORY, StringValueCStr(output_directory)));
+  }
 
   VALUE suffix = rb_hash_aref(filters, ID2SYM(rb_intern("suffix")));
   if(TYPE(suffix) == T_STRING) {
@@ -201,7 +214,6 @@ void Init_flix_engine()
   eFlixEngineError = rb_define_class_under(mOn2, "FlixEngineError", rb_eStandardError);
 
   cFlixEngine = rb_define_class_under(mOn2, "FlixEngine", rb_cObject);
-
   rb_define_method(cFlixEngine, "initialize", FlixEngine_init, 2);
   rb_define_method(cFlixEngine, "finalize", FlixEngine_finalize, 0);
   rb_define_method(cFlixEngine, "version", FlixEngine_version, 0);
@@ -220,4 +232,5 @@ void Init_flix_engine()
   rb_define_method(cFlixEngine, "encode", FlixEngine_encode, 0);
   rb_define_method(cFlixEngine, "encoding?", FlixEngine_encoding, 0);
   rb_define_method(cFlixEngine, "percent_complete", FlixEngine_percent_complete, 0);
+  rb_define_method(cFlixEngine, "enable_flv", FlixEngine_enable_flv, 0);
 }
