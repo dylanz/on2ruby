@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class FlixEngineTest < Test::Unit::TestCase
-=begin  
   def setup
     @flix_engine = On2::FlixEngine.new('localhost', 0)
   end
@@ -50,6 +49,4 @@ class FlixEngineTest < Test::Unit::TestCase
     @flix_engine.finalize
     File.delete(TEST_OUTPUT_MOVIE_PATH) if File.exists?(TEST_OUTPUT_MOVIE_PATH)
   end
-
-=end
 end

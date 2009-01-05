@@ -10,7 +10,7 @@ include FileUtils
 setup_tests
 setup_clean ["ext/flix_engine/*.{bundle,so,obj,pdb,lib,def,exp}", "ext/flix_engine/Makefile", "pkg", "lib/*.bundle", "*.gem", ".config"]
 
-setup_rdoc ['README', 'LICENSE', 'COPYING', 'lib/**/*.rb', 'doc/**/*.rdoc', 'ext/flix_engine/flix_engine.c']
+setup_rdoc ['lib/**/*.rb', 'doc/**/*.rdoc', 'ext/flix_engine/flix_engine.c']
 
 desc "Does a full compile, test run"
 task :default => [:compile, :test]
