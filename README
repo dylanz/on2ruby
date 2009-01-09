@@ -1,0 +1,1 @@
+Install:  rake package; gem install pkg/on2xxxx.gem
