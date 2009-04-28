@@ -153,6 +153,8 @@ VALUE FlixEngine_enable_flv(VALUE self)
   CHECKSC( Flix2_AddCodec(&codec, flix, FE2_CODEC_VP6) )
   CHECKSC( Flix2_CodecSetParam(codec, FE2_VP6_BITRATE, 450.0) )
   CHECKSC( Flix2_AddMuxer(&muxer, flix, FE2_MUXER_FLV) )
+  
+  CHECKSC( Flix2_AddCodec(&codec, flix, FE2_CODEC_AAC) )
 }
 
 VALUE FlixEngine_enable_mp4(VALUE self)
