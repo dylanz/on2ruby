@@ -155,6 +155,16 @@ VALUE FlixEngine_enable_flv(VALUE self)
   CHECKSC( Flix2_AddMuxer(&muxer, flix, FE2_MUXER_FLV) )
 }
 
+VALUE FlixEngine_enable_mp4(VALUE self)
+{
+  FLIX2PLGNHANDLE codec;
+  FLIX2PLGNHANDLE muxer;
+
+  CHECKSC( Flix2_AddCodec(&codec, flix, FE2_CODEC_H264) )
+  CHECKSC( Flix2_CodecSetParam(codec, FE2_H264_BITRATE, 450.0) )
+  CHECKSC( Flix2_AddMuxer(&muxer, flix, FE2_MUXER_MP4) )
+}
+
 VALUE FlixEngine_validate(VALUE self)
 {
   CHECKSC( Flix2_Validate(flix) )
@@ -242,5 +252,6 @@ void Init_flix_engine()
   rb_define_method(cFlixEngine, "encoding?", FlixEngine_encoding, 0);
   rb_define_method(cFlixEngine, "percent_complete", FlixEngine_percent_complete, 0);
   rb_define_method(cFlixEngine, "enable_flv", FlixEngine_enable_flv, 0);
+  rb_define_method(cFlixEngine, "enable_mp4", FlixEngine_enable_mp4, 0);  
   rb_define_method(cFlixEngine, "valid?", FlixEngine_validate, 0);
 }
