@@ -172,19 +172,19 @@ VALUE FlixEngine_enable_mp4(VALUE self, VALUE settings)
 {
   FLIX2PLGNHANDLE codec;
   FLIX2PLGNHANDLE muxer;
-  
+
   CHECKSC( Flix2_AddCodec(&codec, flix, FE2_CODEC_H264) )
-  
-  VALUE bitrate = rb_hash_aref(settings, ID2SYM(rb_intern(bitrate)));
-  if(TYPE(bitrate) == T_FIXNUM)) {
+
+  VALUE bitrate = rb_hash_aref(settings, ID2SYM(rb_intern("bitrate")));
+  if(TYPE(bitrate) == T_FIXNUM) {
     CHECKSC( Flix2_CodecSetParam(codec, FE2_H264_BITRATE,  NUM2INT(bitrate)) )
   }
 
   CHECKSC( Flix2_AddMuxer(&muxer, flix, FE2_MUXER_MP4) )
   CHECKSC( Flix2_AddCodec(&codec, flix, FE2_CODEC_AAC) )
-  
-  VALUE bitrate = rb_hash_aref(settings, ID2SYM(rb_intern(audio_bitrate)));
-  if(TYPE(audio_bitrate) == T_FIXNUM)) {
+ 
+  VALUE audio_bitrate = rb_hash_aref(settings, ID2SYM(rb_intern("audio_bitrate")));
+  if(TYPE(audio_bitrate) == T_FIXNUM) {
     CHECKSC( Flix2_CodecSetParam(codec, FE2_AAC_BITRATE,  NUM2INT(audio_bitrate)) )
   }
 }
