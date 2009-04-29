@@ -154,17 +154,39 @@ VALUE FlixEngine_enable_flv(VALUE self)
   CHECKSC( Flix2_CodecSetParam(codec, FE2_VP6_BITRATE, 450.0) )
   CHECKSC( Flix2_AddMuxer(&muxer, flix, FE2_MUXER_FLV) )
   
-  CHECKSC( Flix2_AddCodec(&codec, flix, FE2_CODEC_AAC) )
 }
 
-VALUE FlixEngine_enable_mp4(VALUE self)
+VALUE FlixEngine_enable_3gp(VALUE self)
 {
   FLIX2PLGNHANDLE codec;
   FLIX2PLGNHANDLE muxer;
 
+  CHECKSC( Flix2_AddCodec(&codec, flix, FE2_CODEC_H263_BASELINE) )
+
+  CHECKSC( Flix2_AddMuxer(&muxer, flix, FE2_MUXER_3GP) )
+  
+  CHECKSC( Flix2_AddCodec(&codec, flix, FE2_CODEC_AMR_NB) )
+}
+
+VALUE FlixEngine_enable_mp4(VALUE self, VALUE settings)
+{
+  FLIX2PLGNHANDLE codec;
+  FLIX2PLGNHANDLE muxer;
+  
   CHECKSC( Flix2_AddCodec(&codec, flix, FE2_CODEC_H264) )
-  CHECKSC( Flix2_CodecSetParam(codec, FE2_H264_BITRATE, 450.0) )
+  
+  VALUE bitrate = rb_hash_aref(settings, ID2SYM(rb_intern(bitrate)));
+  if(TYPE(bitrate) == T_FIXNUM)) {
+    CHECKSC( Flix2_CodecSetParam(codec, FE2_H264_BITRATE,  NUM2INT(bitrate)) )
+  }
+
   CHECKSC( Flix2_AddMuxer(&muxer, flix, FE2_MUXER_MP4) )
+  CHECKSC( Flix2_AddCodec(&codec, flix, FE2_CODEC_AAC) )
+  
+  VALUE bitrate = rb_hash_aref(settings, ID2SYM(rb_intern(audio_bitrate)));
+  if(TYPE(audio_bitrate) == T_FIXNUM)) {
+    CHECKSC( Flix2_CodecSetParam(codec, FE2_AAC_BITRATE,  NUM2INT(audio_bitrate)) )
+  }
 }
 
 VALUE FlixEngine_validate(VALUE self)
@@ -254,6 +276,7 @@ void Init_flix_engine()
   rb_define_method(cFlixEngine, "encoding?", FlixEngine_encoding, 0);
   rb_define_method(cFlixEngine, "percent_complete", FlixEngine_percent_complete, 0);
   rb_define_method(cFlixEngine, "enable_flv", FlixEngine_enable_flv, 0);
-  rb_define_method(cFlixEngine, "enable_mp4", FlixEngine_enable_mp4, 0);  
+  rb_define_method(cFlixEngine, "enable_3gp", FlixEngine_enable_flv, 0);
+  rb_define_method(cFlixEngine, "enable_mp4", FlixEngine_enable_mp4, 1);  
   rb_define_method(cFlixEngine, "valid?", FlixEngine_validate, 0);
 }
