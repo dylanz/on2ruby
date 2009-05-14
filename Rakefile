@@ -39,6 +39,7 @@ setup_gem(name, version) do |spec|
   spec.test_files = Dir.glob('test/test_*.rb')
   spec.author="Matt Bauer"
   spec.files += %w(README Rakefile setup.rb)
+  spec.homepage = ""
 
   spec.required_ruby_version = '>= 1.8.4'
 
