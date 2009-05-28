@@ -180,6 +180,11 @@ VALUE FlixEngine_enable_mp4(VALUE self, VALUE settings)
     CHECKSC( Flix2_CodecSetParam(codec, FE2_H264_BITRATE,  NUM2INT(bitrate)) )
   }
 
+  VALUE iphone = rb_hash_aref(settings, ID2SYM(rb_intern("iphone")));
+  if (iphone == Qtrue) {
+    Flix2_CodecSetParam(codec, FE2_H264_PROFILE, BASE_H264PROFILE);
+  }
+
   CHECKSC( Flix2_AddMuxer(&muxer, flix, FE2_MUXER_MP4) )
   CHECKSC( Flix2_AddCodec(&codec, flix, FE2_CODEC_AAC) )
  
